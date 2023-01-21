@@ -2,7 +2,8 @@ const  form = document.getElementById("novoItem")
 
 form.addEventListener("submit", (evento)=>{
     evento.preventDefault();
-    criaElemento(evento.elements('nome').value,evento.elements('quantidade').value)
+
+criaElemento(evento.target.elements['nome'].value, evento.target.elements['quantidade'].value)
 
 })
 
@@ -17,4 +18,8 @@ function criaElemento(nome, quantidade){
 
     novoItem.appendChild(numeroItem)
     novoItem.innerHTML += nome
+
+    const lista = document.getElementById('lista')
+
+    lista.appendChild(novoItem)
 } 
