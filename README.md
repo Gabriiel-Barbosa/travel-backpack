@@ -4,6 +4,7 @@ This repository aims to document my studies and progress in the "JavaScript on t
 
 
 ## Course Content
+
 - Module 1: Data Manipulation on the Web
 - Module 2: Storing Data on the Web
 - Module 3: Interacting with Data on the Web
@@ -12,6 +13,7 @@ This repository aims to document my studies and progress in the "JavaScript on t
 
 
 ## Project Description
+
 The Travel Backpack application is a simple tool to help users plan their trips by allowing them to keep track of items that can't be forgotten. The application allows for adding, updating and removing items from a list with a clean design. Data is persistent, allowing the user to access the list at any time, even after reloading the page. This ensures that the necessary items for the trip will always be available to the user, making the trip preparation easier.
 
 ## Socials 
