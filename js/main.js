@@ -1,74 +1,100 @@
-// Recupera o formulário e a lista do HTML
 const form = document.getElementById("novoItem")
 const lista = document.getElementById("lista")
-
-// Recupera os itens salvos no LocalStorage ou cria um array vazio
 const itens = JSON.parse(localStorage.getItem("itens")) || []
 
-// Exibe os itens salvos na tela
+// Carrega os itens salvos no armazenamento local e os adiciona na lista HTML
 itens.forEach( (elemento) => {
     criaElemento(elemento)
 } )
 
-// Adiciona um evento de submit ao formulário para adicionar novos itens à lista
+// Adiciona um evento de submit ao formulário para capturar quando é enviado
 form.addEventListener("submit", (evento) => {
-    // Previne o comportamento padrão de submissão do formulário
+    // Previne o recarregamento da página
     evento.preventDefault()
 
-    // Recupera os valores de nome e quantidade do formulário
+    // Obtém os valores de "nome" e "quantidade" do formulário
     const nome = evento.target.elements['nome']
     const quantidade = evento.target.elements['quantidade']
 
     // Verifica se o item já existe na lista
     const existe = itens.find( elemento => elemento.nome === nome.value )
 
-    // Cria um objeto com os dados do item atual
     const itemAtual = {
         "nome": nome.value,
         "quantidade": quantidade.value
     }
 
-    // Se o item já existe, atualiza a quantidade e o LocalStorage
+    // Se o item já existe, atualiza-o na lista
+    // Caso contrário, adiciona-o a lista
     if (existe) {
         itemAtual.id = existe.id
         
         atualizaElemento(itemAtual)
 
-        itens[existe.id] = itemAtual
+        itens[itens.findIndex(elemento => elemento.id === existe.id)] = itemAtual
     } else {
-        // Senão, adiciona o item à lista e ao LocalStorage
-        itemAtual.id = itens.length
+        itemAtual.id = itens[itens.length -1] ? (itens[itens.length-1]).id + 1 : 0;
 
         criaElemento(itemAtual)
 
         itens.push(itemAtual)
     }
 
-    // Atualiza o LocalStorage com a lista atualizada
+    // Atualiza o armazenamento local com os itens atualizados
     localStorage.setItem("itens", JSON.stringify(itens))
 
-    // Limpa os campos do formulário
+    // Limpa os valores do formulário
     nome.value = ""
     quantidade.value = ""
 })
 
-// Função para criar um novo elemento na tela representando o item
+// Cria um novo elemento na lista HTML
 function criaElemento(item) {
-    // Cria um novo elemento "li"
     const novoItem = document.createElement("li")
     novoItem.classList.add("item")
 
-    // Cria um elemento "strong" para exibir a quantidade do item
     const numeroItem = document.createElement("strong")
     numeroItem.innerHTML = item.quantidade
     numeroItem.dataset.id = item.id
     novoItem.appendChild(numeroItem)
     
-    // Adiciona o nome do item ao elemento "li"
     novoItem.innerHTML += item.nome
 
-    // Adiciona o novo item à lista
+    // Adiciona um botão de deletar ao elemento
+    novoItem.appendChild(botaoDeleta(item.id))
+
+    // Adiciona o elemento na lista HTML
     lista.appendChild(novoItem)
 }
 
-// Função para at
+// Atualiza um elemento na lista HTML com o novo valor de quantidade
+function atualizaElemento(item) {
+    // Seleciona o elemento na lista HTML pelo atributo "data-id"
+    document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
+}
+
+// Cria um botão de deletar
+function botaoDeleta(id) {
+    // Cria um elemento HTML "button"
+    const elementoBotao = document.createElement("button")
+    elementoBotao.innerText = "X"
+
+    // Adiciona um evento de click ao botão para deletar o elemento
+    elementoBotao.addEventListener("click", function() {
+        deletaElemento(this.parentNode, id)
+    })
+
+    return elementoBotao
+}
+
+// Deleta um elemento da lista HTML e do armazenamento local
+function deletaElemento(tag, id) {
+    // Remove o elemento da lista HTML
+    tag.remove()
+
+    // Remove o item do array "itens"
+    itens.splice(itens.findIndex(elemento => elemento.id === id), 1)
+
+    // Atualiza o armazenamento local
+    localStorage.setItem("itens", JSON.stringify(itens))
+}

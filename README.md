@@ -1,5 +1,7 @@
 # JavaScript na Web: Armazenando Dados no Navegador
 
+## ✔️Completed Project✔️
+
 This repository aims to document my studies and progress in the "JavaScript on the Web: Storing Data in the Browser" course on the Alura platform. It contains the source code of the Travel Backpack project, developed during the course. Its goal is to demonstrate techniques for storing data in the browser using JavaScript and HTML/CSS. The files included in this repository are the source code of the application and this README file which explains about the project and the course's objective.
 
 
